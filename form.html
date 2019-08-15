@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<!--<form action="">-->
+<!--    <input>-->
+<!--    <button id="bt" type="button">+</button>-->
+<!--</form>-->
+
+<form class="m-5">
+    <input type="text" class="form-control w-25 mb-3 d-inline-block" id="input1" placeholder="Your name">
+    <button type="button" id="btnPlus" class="btn btn-primary mb-1">+</button>
+</form>
+
+<script>
+    let btnPlus = document.getElementById('btnPlus');
+    btnPlus.onclick = addInput;
+
+    function addInput() {
+
+        let newField = document.createElement('input');
+        newField.setAttribute('type', 'text');
+        newField.classList.add('form-control', 'w-25', 'mb-3', 'mr-1', 'd-inline-block');
+        let btnMinus = document.createElement('button');
+        btnMinus.innerText = '-';
+        btnMinus.classList.add('btn', 'btn-primary', 'mb-1');
+        btnMinus.onclick = function () {
+            this.previousElementSibling.remove();
+            this.nextElementSibling.remove();
+            this.remove();
+        }
+
+        this.parentNode.insertBefore(newField, this.previousElementSibling);
+        this.parentNode.insertBefore(btnMinus, this.previousElementSibling);
+        this.parentNode.insertBefore(document.createElement('br'), this.previousElementSibling);
+
+
+    }
+</script>
+</body>
+</html>

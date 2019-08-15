@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="counter_label">0</div>
+    <button id="btn_plus">+</button>
+    <button id="btn_minus">-</button>
+    <script>
+        function counter() {
+            var counter = 0;
+
+            return {
+                plus: function () {
+                    counter++;
+                    document.getElementById('counter_label').innerHTML = counter;
+                },
+                minus: function () {
+                    counter--;
+                    document.getElementById('counter_label').innerHTML = counter;
+                }
+            }
+        }
+
+        var cnt = counter();
+        document.getElementById('btn_plus').onclick = cnt.plus;
+        document.getElementById('btn_minus').onclick = cnt.minus;
+    </script>
+</body>
+</html>

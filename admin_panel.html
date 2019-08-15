@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin panel</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+    <div class="container col-10 offset-1 mt-3 border">
+        <div class="row border">
+            <div class="col-2 text-center">Логин</div>
+            <div class="col-2 text-center">Пароль</div>
+            <div class="col-2 text-center">E-mail</div>
+            <div class="col-2 text-center">Группа</div>
+            <div class="col-2 text-center">Активность</div>
+            <div class="col-2 text-center">Действия</div>
+        </div>
+
+        <div class="inputRow row border">
+            <div class="col-2"><input type="text" class="form-control" data-validation="required"></div>
+            <div class="col-2"><input type="password" class="form-control" data-validation="required"></div>
+            <div class="col-2"><input type="email" class="form-control" data-validation="required email"></div>
+            <div class="col-2"><select name="" id="" class="form-control">
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
+            </select></div>
+            <div class="col-2"><input type="checkbox" class="form-control"></div>
+            <div class="col-2"><button class="buttonAdd btn btn-block btn-success">Add</button></div>
+        </div>
+    </div>
+
+
+    <script>
+        function validateRequired() {
+            return this.value !== '';
+        }
+
+        function validateEmail() {
+            return true;
+        }
+        
+        function showError(error) {
+            let errorMsg = document.createElement('span');
+            errorMsg.innerText = error;
+            this.parentNode.insertBefore(errorMsg, this.nextElementSibling);
+        }
+
+        function validate(inputsForValidation) {
+            inputsForValidation.forEach(function (input) {
+                let valid = true;
+                let error;
+
+                let rules = input.getAttribute('data-validation').split(' ');
+                rules.forEach(function (rule) {
+                    let validationFuncName = 'validate' + rule.charAt(0).toUpperCase() + rule.slice(1);
+                    valid = valid && window[validationFuncName].call(input);
+                    if (!error && !valid) error = rule;
+                    console.log(error);
+
+                });
+                if (!valid) showError.call(input, error);
+                
+            });
+        }
+
+
+
+        function addUser() {
+            let validationRules = [];
+
+            let inputsForValidation = document.querySelectorAll('.inputRow [data-validation]');
+
+            validate(inputsForValidation);
+
+
+            // console.log(inputsForValidation);
+        }
+
+
+        document.querySelector('.inputRow .buttonAdd').onclick = addUser;
+
+    </script>
+</body>
+</html>
