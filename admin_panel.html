@@ -35,15 +35,31 @@
             return this.value !== '';
         }
 
+
         function validateEmail() {
-            return true;
+            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(this.value).toLowerCase());
         }
+
         
         function showError(error) {
-            let errorMsg = document.createElement('span');
-            errorMsg.innerText = error;
+            let errorList = {
+                'required': 'Поле не должно быть пустым',
+                'email': 'Неверный формат Email',
+            };
+
+            let errorMsg = document.createElement('small');
+            errorMsg.innerText = errorList[error];
+            errorMsg.classList.add('text-danger');
             this.parentNode.insertBefore(errorMsg, this.nextElementSibling);
         }
+
+        function cleanError() {
+            if (this.nextElementSibling){
+                this.nextElementSibling.remove();
+            }
+        }
+
 
         function validate(inputsForValidation) {
             inputsForValidation.forEach(function (input) {
@@ -55,25 +71,19 @@
                     let validationFuncName = 'validate' + rule.charAt(0).toUpperCase() + rule.slice(1);
                     valid = valid && window[validationFuncName].call(input);
                     if (!error && !valid) error = rule;
-                    console.log(error);
+                    // console.log(error);
 
                 });
+                cleanError.call(input);
                 if (!valid) showError.call(input, error);
                 
             });
         }
 
 
-
         function addUser() {
-            let validationRules = [];
-
             let inputsForValidation = document.querySelectorAll('.inputRow [data-validation]');
-
             validate(inputsForValidation);
-
-
-            // console.log(inputsForValidation);
         }
 
 
