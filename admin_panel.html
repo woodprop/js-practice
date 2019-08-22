@@ -17,10 +17,10 @@
         </div>
 
         <div class="inputRow row border">
-            <div class="col-2"><input type="text" class="form-control" data-validation="required"></div>
-            <div class="col-2"><input type="password" class="form-control" data-validation="required"></div>
-            <div class="col-2"><input type="email" class="form-control" data-validation="required email"></div>
-            <div class="col-2"><select name="" id="" class="form-control">
+            <div class="col-2"><input type="text" class="form-control input-user-name" data-validation="required"></div>
+            <div class="col-2"><input type="password" class="form-control input-user-pass" data-validation="required"></div>
+            <div class="col-2"><input type="email" class="form-control input-user-email" data-validation="required email"></div>
+            <div class="col-2"><select name="" id="" class="form-control input-user-group">
                 <option value="User">User</option>
                 <option value="Admin">Admin</option>
             </select></div>
@@ -62,6 +62,8 @@
 
 
         function validate(inputsForValidation) {
+            let formValid = true;
+
             inputsForValidation.forEach(function (input) {
                 let valid = true;
                 let error;
@@ -75,15 +77,46 @@
 
                 });
                 cleanError.call(input);
-                if (!valid) showError.call(input, error);
-                
+                if (!valid) {
+                    showError.call(input, error);
+                    formValid = false;
+                }
             });
+            return formValid;
         }
 
 
         function addUser() {
             let inputsForValidation = document.querySelectorAll('.inputRow [data-validation]');
-            validate(inputsForValidation);
+            if (validate(inputsForValidation)) {
+                let form = document.querySelector('.inputRow');
+                let userRow = document.createElement('div');
+                let userName = document.createElement('div');
+                let userPass = document.createElement('div');
+                let userEmail = document.createElement('div');
+                let userGroup = document.createElement('div');
+                let userActivity = document.createElement('div');
+                let userButtons = document.createElement('div');
+                userRow.classList.add('row');
+                userName.classList.add('col-2', 'text-center');
+                userName.innerText = form.querySelector('.input-user-name').value;
+                userPass.classList.add('col-2', 'text-center');
+                userPass.innerText = form.querySelector('.input-user-pass').value;
+                userEmail.classList.add('col-2', 'text-center');
+                userEmail.innerText = form.querySelector('.input-user-email').value;
+                userGroup.classList.add('col-2', 'text-center');
+                userGroup.innerText = form.querySelector('.input-user-group').value;
+                userActivity.classList.add('col-2', 'text-center');
+                userButtons.classList.add('col-2', 'text-center');
+                userRow.appendChild(userName);
+                userRow.appendChild(userPass);
+                userRow.appendChild(userEmail);
+                userRow.appendChild(userGroup);
+                userRow.appendChild(userActivity);
+                userRow.appendChild(userButtons);
+
+                form.parentNode.insertBefore(userRow, form);
+            }
         }
 
 
